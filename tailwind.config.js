@@ -12,6 +12,9 @@ export default {
       colors: {
         'shash-orange': '#FF6B1A',
       },
+      scale: {
+        '97': '0.97',
+      },
     },
   },
   plugins: [],
