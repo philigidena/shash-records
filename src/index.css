@@ -32,6 +32,13 @@ body {
   min-height: 100vh;
 }
 
+section {
+  margin: 0;
+  padding: 0;
+  display: block;
+  line-height: 0;
+}
+
 #root {
   width: 100%;
 }
