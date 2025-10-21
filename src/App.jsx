@@ -189,7 +189,7 @@ function App() {
       style={{
         backgroundImage: 'url(/shash_background.png)',
         backgroundSize: '200%',
-        backgroundPosition: '10% 10%',
+        backgroundPosition: '10% 0%',
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#000'
       }}
@@ -503,7 +503,7 @@ function App() {
          </section>
 
          {/* Vinyl Disk Section - Top Half Only */}
-         <section className="relative w-full flex items-end justify-center pb-0 px-4 bg-black" style={{ height: '75vh', overflow: 'visible', zIndex: 1 }}>
+         <section className="relative w-full flex items-end justify-center pb-0 px-4 bg-black" style={{ height: '100vh', overflow: 'visible', zIndex: 1 }}>
            {/* Orange crack pattern on top of dark background */}
            <div 
              className="absolute inset-0"
@@ -519,7 +519,7 @@ function App() {
            {/* Content */}
            <div className="relative flex flex-col items-center justify-end max-w-7xl mx-auto w-full">
              {/* Rotating Vinyl Disk - Bigger size, positioned at bottom, half will be covered */}
-             <div className="relative w-[1000px] h-[1000px] max-w-[110vw] max-h-[110vw]" style={{ marginBottom: '-500px', overflow: 'visible' }}>
+             <div className="relative w-[1600px] h-[1600px] max-w-[160vw] max-h-[160vw]" style={{ marginBottom: '-800px', overflow: 'visible' }}>
                {/* Orange Gradient Background for Text */}
                <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ overflow: 'visible' }}>
                  <svg className="w-full h-full" viewBox="0 0 1000 1000" style={{ overflow: 'visible' }}>
@@ -527,7 +527,7 @@ function App() {
                      {/* Define the circular path for text */}
                      <path
                        id="textPath"
-                       d="M 500, 500 m -410, 0 a 410,410 0 1,1 820,0 a 410,410 0 1,1 -820,0"
+                       d="M 500, 500 m -400, 0 a 400,400 0 1,1 800,0 a 400,400 0 1,1 -800,0"
                      />
                      {/* Define gradient for the background band */}
                      <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -541,10 +541,10 @@ function App() {
                    <circle 
                      cx="500" 
                      cy="500" 
-                     r="410" 
+                     r="400" 
                      fill="none" 
                      stroke="url(#orangeGradient)" 
-                     strokeWidth="70"
+                     strokeWidth="80"
                      opacity="0.95"
                    />
                    
@@ -579,29 +579,74 @@ function App() {
          </section>
 
          {/* Purpose & Practice Section - Orange Background */}
-         <section className="relative w-full min-h-screen bg-shash-orange" style={{ overflow: 'hidden', zIndex: 20 }}>
-           {/* White crack pattern borders */}
+         <section className="relative w-full min-h-screen bg-shash-orange flex items-center justify-start" style={{ overflow: 'hidden', zIndex: 20 }}>
+           {/* White crack pattern borders on all edges */}
+           
+           {/* TOP edge */}
            <div 
-             className="absolute inset-0"
+             className="absolute top-0 left-0 right-0"
              style={{
+               height: '15%',
                backgroundImage: 'url(/pattern.png)',
-               backgroundSize: 'cover',
-               backgroundPosition: 'center',
+               backgroundSize: '100% 400%',
+               backgroundPosition: 'center 0%',
                backgroundRepeat: 'no-repeat',
                filter: 'brightness(0) invert(1)',
-               opacity: 0.3
+               opacity: 1
+             }}
+           />
+           
+           {/* BOTTOM edge */}
+           <div 
+             className="absolute bottom-0 left-0 right-0"
+             style={{
+               height: '15%',
+               backgroundImage: 'url(/pattern.png)',
+               backgroundSize: '100% 400%',
+               backgroundPosition: 'center 100%',
+               backgroundRepeat: 'no-repeat',
+               filter: 'brightness(0) invert(1)',
+               opacity: 1
+             }}
+           />
+           
+           {/* LEFT edge */}
+           <div 
+             className="absolute top-0 left-0 bottom-0"
+             style={{
+               width: '8%',
+               backgroundImage: 'url(/pattern.png)',
+               backgroundSize: '500% 100%',
+               backgroundPosition: '0% center',
+               backgroundRepeat: 'no-repeat',
+               filter: 'brightness(0) invert(1)',
+               opacity: 1
+             }}
+           />
+           
+           {/* RIGHT edge */}
+           <div 
+             className="absolute top-0 right-0 bottom-0"
+             style={{
+               width: '8%',
+               backgroundImage: 'url(/pattern.png)',
+               backgroundSize: '500% 100%',
+               backgroundPosition: '100% center',
+               backgroundRepeat: 'no-repeat',
+               filter: 'brightness(0) invert(1)',
+               opacity: 1
              }}
            />
 
            {/* Content */}
-           <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 py-24 md:py-32">
+           <div className="relative z-10 w-full px-20 md:px-32 py-24">
              {/* Title */}
              <h2 
-               className="text-white leading-tight"
+               className="text-white leading-[0.85] mb-8"
                style={{
                  fontFamily: 'Akkordeon, sans-serif',
-                 fontSize: 'clamp(3.5rem, 12vw, 9rem)',
-                 letterSpacing: '0.02em',
+                 fontSize: 'clamp(4.5rem, 12vw, 9rem)',
+                 letterSpacing: '0.01em',
                  fontWeight: 'normal'
                }}
              >
@@ -610,9 +655,9 @@ function App() {
 
              {/* Description */}
              <p 
-               className="text-white font-medium max-w-3xl leading-relaxed"
+               className="text-white font-medium max-w-2xl leading-relaxed"
                style={{
-                 fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+                 fontSize: 'clamp(1rem, 2vw, 1.35rem)',
                  lineHeight: '1.6'
                }}
              >
