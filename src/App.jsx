@@ -1,5 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const logoRef = useRef(null)
@@ -14,6 +17,44 @@ function App() {
   const cardBackRef = useRef(null)
   const cardMiddleRef = useRef(null)
   const cardFrontRef = useRef(null)
+  const cursorGlowRef = useRef(null)
+  
+  const [typedText, setTypedText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+  const [typingComplete, setTypingComplete] = useState(false)
+  const fullText = 'Bending Boundaries'
+
+  // Typewriter effect
+  useEffect(() => {
+    let index = 0
+    const typingSpeed = 80
+    
+    const typeTimer = setTimeout(() => {
+      const timer = setInterval(() => {
+        if (index < fullText.length) {
+          setTypedText(fullText.substring(0, index + 1))
+          index++
+        } else {
+          clearInterval(timer)
+          setTypingComplete(true)
+          // Stop cursor blinking after typing is complete
+          setTimeout(() => setShowCursor(false), 500)
+        }
+      }, typingSpeed)
+      
+      return () => clearInterval(timer)
+    }, 500) // Start after initial animations
+    
+    // Cursor blink effect
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev)
+    }, 530)
+    
+    return () => {
+      clearTimeout(typeTimer)
+      clearInterval(cursorInterval)
+    }
+  }, [])
 
   useEffect(() => {
     // Simplified GSAP animations to avoid glitches
@@ -26,34 +67,41 @@ function App() {
         ease: 'power2.out'
       })
       
-      // Logo entrance
+      // Logo entrance with floating animation
       gsap.from(logoRef.current, {
         scale: 0.8,
         opacity: 0,
         duration: 0.8,
         delay: 0.2,
-        ease: 'back.out(1.7)'
+        ease: 'back.out(1.7)',
+        onComplete: () => {
+          // Start floating animation after entrance
+          gsap.to(logoRef.current, {
+            y: -15,
+            duration: 2.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+          })
+        }
       })
       
-      // Subtitle entrance
-      gsap.from(subtitleRef.current, {
+      // Subtitle will be handled by typewriter, just set initial state
+      gsap.set(subtitleRef.current, {
+        opacity: 1
+      })
+      
+      // Description entrance with word stagger
+      gsap.from(descriptionRef.current.children, {
         y: 20,
         opacity: 0,
-        duration: 0.6,
-        delay: 0.4,
+        duration: 0.5,
+        delay: 2.1, // After typewriter completes
+        stagger: 0.05,
         ease: 'power2.out'
       })
       
-      // Description entrance
-      gsap.from(descriptionRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.6,
-        ease: 'power2.out'
-      })
-      
-      // Button entrance
+      // Button entrance with magnetic effect setup
       gsap.fromTo(buttonRef.current, 
         {
           scale: 0.9,
@@ -62,8 +110,8 @@ function App() {
         {
           scale: 1,
           opacity: 1,
-          duration: 0.6,
-          delay: 0.8,
+          duration: 0.5,
+          delay: 2.4,
           ease: 'back.out(1.7)'
         }
       )
@@ -120,19 +168,26 @@ function App() {
         })
       }
 
-      // Stacked cards entrance animations
+      // Stacked cards entrance animations with ScrollTrigger - Faster and Smoother
       if (cardBackRef.current) {
         gsap.fromTo(cardBackRef.current, 
           {
             opacity: 0,
-            y: 50
+            y: 60,
+            rotateX: 10
           },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            delay: 0.5,
-            ease: 'power2.out'
+            rotateX: 0,
+            duration: 0.7,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: cardBackRef.current,
+              start: 'top 90%',
+              end: 'top 60%',
+              toggleActions: 'play none none reverse'
+            }
           }
         )
       }
@@ -141,14 +196,22 @@ function App() {
         gsap.fromTo(cardMiddleRef.current,
           {
             opacity: 0,
-            y: 50
+            y: 60,
+            rotateX: 10
           },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            delay: 0.7,
-            ease: 'power2.out'
+            rotateX: 0,
+            duration: 0.7,
+            delay: 0.1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: cardMiddleRef.current,
+              start: 'top 90%',
+              end: 'top 60%',
+              toggleActions: 'play none none reverse'
+            }
           }
         )
       }
@@ -157,20 +220,122 @@ function App() {
         gsap.fromTo(cardFrontRef.current,
           {
             opacity: 0,
-            y: 50
+            y: 60,
+            rotateX: 10
           },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            delay: 0.9,
-            ease: 'power2.out'
+            rotateX: 0,
+            duration: 0.7,
+            delay: 0.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: cardFrontRef.current,
+              start: 'top 90%',
+              end: 'top 60%',
+              toggleActions: 'play none none reverse'
+            }
           }
         )
       }
+
+      // Add scroll-triggered animations for sections - Faster and Smoother
+      gsap.utils.toArray('section').forEach((section, i) => {
+        if (i > 0) { // Skip first section (hero)
+          gsap.fromTo(section,
+            {
+              opacity: 0,
+              y: 30
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power1.out',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 92%',
+                end: 'top 70%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          )
+        }
+      })
     })
 
     return () => ctx.revert()
+  }, [])
+
+  // Smooth magnetic button effect
+  useEffect(() => {
+    const button = buttonRef.current
+    if (!button) return
+
+    let animationFrameId = null
+    let currentX = 0
+    let currentY = 0
+    let targetX = 0
+    let targetY = 0
+
+    const lerp = (start, end, factor) => start + (end - start) * factor
+
+    const animate = () => {
+      currentX = lerp(currentX, targetX, 0.15)
+      currentY = lerp(currentY, targetY, 0.15)
+      
+      button.style.transform = `translate(${currentX}px, ${currentY}px)`
+      
+      if (Math.abs(currentX - targetX) > 0.01 || Math.abs(currentY - targetY) > 0.01) {
+        animationFrameId = requestAnimationFrame(animate)
+      }
+    }
+
+    const handleMouseMove = (e) => {
+      const rect = button.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      const distanceX = e.clientX - centerX
+      const distanceY = e.clientY - centerY
+      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
+      
+      const maxDistance = 120
+      
+      if (distance < maxDistance) {
+        const strength = Math.min(distance / maxDistance, 1)
+        const maxOffset = 12
+        targetX = (distanceX / distance) * strength * maxOffset
+        targetY = (distanceY / distance) * strength * maxOffset
+      } else {
+        targetX = 0
+        targetY = 0
+      }
+      
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(animate)
+      }
+    }
+
+    const handleMouseLeave = () => {
+      targetX = 0
+      targetY = 0
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(animate)
+      }
+    }
+
+    const container = button.parentElement
+    container.addEventListener('mousemove', handleMouseMove)
+    button.addEventListener('mouseleave', handleMouseLeave)
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
+      container.removeEventListener('mousemove', handleMouseMove)
+      button.removeEventListener('mouseleave', handleMouseLeave)
+    }
   }, [])
 
   const navItems = ['HOME', 'ABOUT', 'MUSIC', 'EVENTS', 'GALLERY', 'CONTACT']
@@ -283,12 +448,13 @@ function App() {
             />
           </div>
 
-          {/* Subtitle */}
+          {/* Subtitle - Typewriter Effect */}
           <h2 
             ref={subtitleRef}
             className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-5 tracking-wide text-center"
           >
-            Bending Boundaries
+            {typedText}
+            <span className={`typewriter-cursor ${!showCursor ? 'invisible' : ''}`}>|</span>
           </h2>
 
           {/* Description */}
@@ -296,7 +462,12 @@ function App() {
             ref={descriptionRef}
             className="text-white/90 text-lg sm:text-xl md:text-2xl mb-12 tracking-wide text-center max-w-3xl"
           >
-            Discovering, unearthing, and polishing artistic gems.
+            <span className="inline-block">Discovering,</span>{' '}
+            <span className="inline-block">unearthing,</span>{' '}
+            <span className="inline-block">and</span>{' '}
+            <span className="inline-block">polishing</span>{' '}
+            <span className="inline-block">artistic</span>{' '}
+            <span className="inline-block">gems.</span>
           </p>
 
            {/* CTA Button */}
