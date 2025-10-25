@@ -18,6 +18,22 @@ function App() {
   const cardMiddleRef = useRef(null)
   const cardFrontRef = useRef(null)
   const cursorGlowRef = useRef(null)
+  const cardsContainerRef = useRef(null)
+  const card1Ref = useRef(null)
+  const card2Ref = useRef(null)
+  const card3Ref = useRef(null)
+  const card4Ref = useRef(null)
+  const card5Ref = useRef(null)
+  const card6Ref = useRef(null)
+  const purposeTitleRef = useRef(null)
+  const purposeDescRef = useRef(null)
+  const whoTitleRef = useRef(null)
+  const whoDescRef = useRef(null)
+  const whatTitleRef = useRef(null)
+  const whatContentRef = useRef(null)
+  const getBoardTitleRef = useRef(null)
+  const shashTitleRef = useRef(null)
+  const valuesRowRef = useRef(null)
   
   const [typedText, setTypedText] = useState('')
   const [showCursor, setShowCursor] = useState(true)
@@ -57,14 +73,16 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Simplified GSAP animations to avoid glitches
+    // Optimized GSAP animations with GPU acceleration
     const ctx = gsap.context(() => {
       // Navigation entrance
       gsap.from(navRef.current, {
         y: -20,
         opacity: 0,
         duration: 0.6,
-        ease: 'power2.out'
+        ease: 'power2.out',
+        force3D: true,
+        clearProps: 'transform'
       })
       
       // Logo entrance with floating animation
@@ -74,6 +92,7 @@ function App() {
         duration: 0.8,
         delay: 0.2,
         ease: 'back.out(1.7)',
+        force3D: true,
         onComplete: () => {
           // Start floating animation after entrance
           gsap.to(logoRef.current, {
@@ -81,7 +100,8 @@ function App() {
             duration: 2.5,
             repeat: -1,
             yoyo: true,
-            ease: 'sine.inOut'
+            ease: 'power1.inOut',
+            force3D: true
           })
         }
       })
@@ -98,7 +118,8 @@ function App() {
         duration: 0.5,
         delay: 2.1, // After typewriter completes
         stagger: 0.05,
-        ease: 'power2.out'
+        ease: 'power2.out',
+        force3D: true
       })
       
       // Button entrance with magnetic effect setup
@@ -112,11 +133,12 @@ function App() {
           opacity: 1,
           duration: 0.5,
           delay: 2.4,
-          ease: 'back.out(1.7)'
+          ease: 'back.out(1.7)',
+          force3D: true
         }
       )
 
-      // Enhanced glow animations - flowing lava effect
+      // Enhanced glow animations - flowing lava effect - GPU optimized
       if (glow1Ref.current) {
         gsap.to(glow1Ref.current, {
           y: 40,
@@ -126,7 +148,8 @@ function App() {
           duration: 3.5,
           repeat: -1,
           yoyo: true,
-          ease: 'sine.inOut'
+          ease: 'power1.inOut',
+          force3D: true
         })
       }
 
@@ -139,7 +162,8 @@ function App() {
           duration: 4,
           repeat: -1,
           yoyo: true,
-          ease: 'sine.inOut'
+          ease: 'power1.inOut',
+          force3D: true
         })
       }
 
@@ -152,7 +176,8 @@ function App() {
           duration: 4.5,
           repeat: -1,
           yoyo: true,
-          ease: 'sine.inOut'
+          ease: 'power1.inOut',
+          force3D: true
         })
       }
 
@@ -164,11 +189,12 @@ function App() {
           duration: 5,
           repeat: -1,
           yoyo: true,
-          ease: 'sine.inOut'
+          ease: 'power1.inOut',
+          force3D: true
         })
       }
 
-      // Stacked cards entrance animations with ScrollTrigger - Faster and Smoother
+      // Stacked cards entrance animations with ScrollTrigger - Optimized
       if (cardBackRef.current) {
         gsap.fromTo(cardBackRef.current, 
           {
@@ -180,13 +206,15 @@ function App() {
             opacity: 1,
             y: 0,
             rotateX: 0,
-            duration: 0.7,
+            duration: 0.8,
             ease: 'power2.out',
+            force3D: true,
             scrollTrigger: {
               trigger: cardBackRef.current,
               start: 'top 90%',
               end: 'top 60%',
-              toggleActions: 'play none none reverse'
+              toggleActions: 'play none none reverse',
+              fastScrollEnd: true
             }
           }
         )
@@ -203,14 +231,16 @@ function App() {
             opacity: 1,
             y: 0,
             rotateX: 0,
-            duration: 0.7,
+            duration: 0.8,
             delay: 0.1,
             ease: 'power2.out',
+            force3D: true,
             scrollTrigger: {
               trigger: cardMiddleRef.current,
               start: 'top 90%',
               end: 'top 60%',
-              toggleActions: 'play none none reverse'
+              toggleActions: 'play none none reverse',
+              fastScrollEnd: true
             }
           }
         )
@@ -227,20 +257,22 @@ function App() {
             opacity: 1,
             y: 0,
             rotateX: 0,
-            duration: 0.7,
+            duration: 0.8,
             delay: 0.2,
             ease: 'power2.out',
+            force3D: true,
             scrollTrigger: {
               trigger: cardFrontRef.current,
               start: 'top 90%',
               end: 'top 60%',
-              toggleActions: 'play none none reverse'
+              toggleActions: 'play none none reverse',
+              fastScrollEnd: true
             }
           }
         )
       }
 
-      // Add scroll-triggered animations for sections - Faster and Smoother
+      // Add scroll-triggered animations for sections - Optimized
       gsap.utils.toArray('section').forEach((section, i) => {
         if (i > 0) { // Skip first section (hero)
           gsap.fromTo(section,
@@ -251,24 +283,251 @@ function App() {
             {
               opacity: 1,
               y: 0,
-              duration: 0.6,
-              ease: 'power1.out',
+              duration: 0.8,
+              ease: 'power2.out',
+              force3D: true,
               scrollTrigger: {
                 trigger: section,
                 start: 'top 92%',
                 end: 'top 70%',
-                toggleActions: 'play none none reverse'
+                toggleActions: 'play none none reverse',
+                fastScrollEnd: true
               }
             }
           )
         }
       })
+
+      // Purpose & Practice section text animations
+      if (purposeTitleRef.current) {
+        const titleLines = purposeTitleRef.current.querySelectorAll('div')
+        gsap.fromTo(titleLines,
+          {
+            opacity: 0,
+            x: -50,
+            rotateX: -15
+          },
+          {
+            opacity: 1,
+            x: 0,
+            rotateX: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: 'power3.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: purposeTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      if (purposeDescRef.current) {
+        gsap.fromTo(purposeDescRef.current,
+          {
+            opacity: 0,
+            y: 30
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: 0.4,
+            ease: 'power2.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: purposeDescRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      // Who We Are section text animations
+      if (whoTitleRef.current) {
+        gsap.fromTo(whoTitleRef.current,
+          {
+            opacity: 0,
+            scale: 0.9,
+            y: 30
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.9,
+            ease: 'back.out(1.4)',
+            force3D: true,
+            scrollTrigger: {
+              trigger: whoTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      if (whoDescRef.current) {
+        gsap.fromTo(whoDescRef.current,
+          {
+            opacity: 0,
+            y: 30
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: 0.3,
+            ease: 'power2.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: whoDescRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      // What Is New section text animations
+      if (whatTitleRef.current) {
+        const titleLines = whatTitleRef.current.querySelectorAll('div')
+        gsap.fromTo(titleLines,
+          {
+            opacity: 0,
+            x: -80,
+            skewX: 10
+          },
+          {
+            opacity: 1,
+            x: 0,
+            skewX: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: 'power3.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: whatTitleRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      if (whatContentRef.current) {
+        gsap.fromTo(whatContentRef.current,
+          {
+            opacity: 0,
+            scale: 0.95,
+            y: 40
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.9,
+            delay: 0.3,
+            ease: 'power2.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: whatContentRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      // Get On Board section text animation
+      if (getBoardTitleRef.current) {
+        const titleLines = getBoardTitleRef.current.querySelectorAll('br')
+        const textContent = getBoardTitleRef.current.textContent
+        gsap.fromTo(getBoardTitleRef.current,
+          {
+            opacity: 0,
+            scale: 1.1,
+            rotateX: 20
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotateX: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: getBoardTitleRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      // SHASH card title animation
+      if (shashTitleRef.current) {
+        const letters = shashTitleRef.current.querySelectorAll('span')
+        gsap.fromTo(letters,
+          {
+            opacity: 0,
+            y: 60,
+            rotateX: -90,
+            scale: 0.8
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'back.out(1.5)',
+            force3D: true,
+            scrollTrigger: {
+              trigger: shashTitleRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
+
+      // Values row animation
+      if (valuesRowRef.current) {
+        const valueItems = valuesRowRef.current.querySelectorAll('div')
+        gsap.fromTo(valueItems,
+          {
+            opacity: 0,
+            y: 40,
+            scale: 0.9
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            delay: 0.5,
+            ease: 'power2.out',
+            force3D: true,
+            scrollTrigger: {
+              trigger: valuesRowRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        )
+      }
     })
 
     return () => ctx.revert()
   }, [])
 
-  // Smooth magnetic button effect
+  // Smooth magnetic button effect - Optimized
   useEffect(() => {
     const button = buttonRef.current
     if (!button) return
@@ -282,13 +541,16 @@ function App() {
     const lerp = (start, end, factor) => start + (end - start) * factor
 
     const animate = () => {
-      currentX = lerp(currentX, targetX, 0.15)
-      currentY = lerp(currentY, targetY, 0.15)
+      currentX = lerp(currentX, targetX, 0.2)
+      currentY = lerp(currentY, targetY, 0.2)
       
-      button.style.transform = `translate(${currentX}px, ${currentY}px)`
+      button.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`
+      button.style.willChange = 'transform'
       
       if (Math.abs(currentX - targetX) > 0.01 || Math.abs(currentY - targetY) > 0.01) {
         animationFrameId = requestAnimationFrame(animate)
+      } else {
+        button.style.willChange = 'auto'
       }
     }
 
@@ -634,46 +896,46 @@ function App() {
                  }}
                />
 
-               {/* Card Content */}
-               <div className="relative z-10 h-full flex flex-col items-center justify-center px-10 py-16">
-                 {/* SHASH Title - spaced to align with values */}
-                 <div className="mb-20 md:mb-24 flex justify-center gap-12 md:gap-16 lg:gap-20">
-                   {'SHASH'.split('').map((letter, index) => (
-                     <span 
-                       key={index}
-                       className="text-white font-black"
-                       style={{
-                         fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-                         textShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
-                       }}
-                     >
-                       {letter}
-                     </span>
-                   ))}
-                 </div>
+              {/* Card Content */}
+                <div className="relative z-10 h-full flex flex-col items-center justify-center px-10 py-16">
+                  {/* SHASH Title - spaced to align with values */}
+                  <div ref={shashTitleRef} className="mb-20 md:mb-24 flex justify-center gap-12 md:gap-16 lg:gap-20">
+                    {'SHASH'.split('').map((letter, index) => (
+                      <span 
+                        key={index}
+                        className="text-white font-black"
+                        style={{
+                          fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+                          textShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
+                        }}
+                      >
+                        {letter}
+                      </span>
+                    ))}
+                  </div>
 
-                 {/* Values Row */}
-                 <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 lg:gap-20">
-                   {valueItems.map((item, index) => (
-                     <div 
-                       key={index}
-                       className="flex items-center gap-2.5 group cursor-pointer hover:scale-105 transition-transform duration-300"
-                     >
-                       <span 
-                         className="text-2xl md:text-3xl transition-all duration-300"
-                         style={{
-                           filter: 'brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255, 255, 255, 0.5))'
-                         }}
-                       >
-                         {item.icon}
-                       </span>
-                       <span className="text-white group-hover:text-shash-orange text-xs md:text-sm font-medium tracking-wide transition-colors duration-300">
-                         {item.text}
-                       </span>
-                     </div>
-                   ))}
-                 </div>
-               </div>
+                  {/* Values Row */}
+                  <div ref={valuesRowRef} className="flex flex-wrap items-center justify-center gap-12 md:gap-16 lg:gap-20">
+                    {valueItems.map((item, index) => (
+                      <div 
+                        key={index}
+                        className="flex items-center gap-2.5 group cursor-pointer hover:scale-105 transition-transform duration-300"
+                      >
+                        <span 
+                          className="text-2xl md:text-3xl transition-all duration-300"
+                          style={{
+                            filter: 'brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255, 255, 255, 0.5))'
+                          }}
+                        >
+                          {item.icon}
+                        </span>
+                        <span className="text-white group-hover:text-shash-orange text-xs md:text-sm font-medium tracking-wide transition-colors duration-300">
+                          {item.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
              </div>
            </div>
          </section>
@@ -754,276 +1016,307 @@ function App() {
            </div>
          </section>
 
-         {/* Purpose & Practice Section - Orange Background */}
-         <section className="relative w-full min-h-screen bg-shash-orange flex flex-col items-center justify-center" style={{ overflow: 'hidden', zIndex: 20 }}>
-           {/* White crack pattern - LEFT side - Rotated 5 degrees */}
-           <div 
-             className="absolute"
-             style={{
-               width: '800px',
-               height: '120%',
-               backgroundImage: 'url(/pattern.png)',
-               backgroundSize: 'auto 100%',
-               backgroundPosition: 'right center',
-               backgroundRepeat: 'no-repeat',
-               filter: 'brightness(0) invert(1)',
-               opacity: 1,
-               transform: 'rotate(5deg)',
-               transformOrigin: 'center',
-               top: '-10%',
-               left: '-300px'
-             }}
-           />
-           
-           {/* White crack pattern - RIGHT side - Rotated 25 degrees */}
-           <div 
-             className="absolute"
-             style={{
-               width: '800px',
-               height: '120%',
-               backgroundImage: 'url(/pattern.png)',
-               backgroundSize: 'auto 100%',
-               backgroundPosition: 'left center',
-               backgroundRepeat: 'no-repeat',
-               filter: 'brightness(0) invert(1)',
-               opacity: 1,
-               transform: 'rotate(-25deg)',
-               transformOrigin: 'center',
-               top: '-10%',
-               right: '-300px'
-             }}
-           />
+          {/* Purpose & Practice Section - Orange Background */}
+          <section 
+            className="relative w-full bg-shash-orange flex flex-col items-center justify-center" 
+            style={{ 
+              height: '100vh',
+              overflow: 'hidden', 
+              zIndex: 20 
+            }}
+          >
+            {/* White crack pattern - LEFT side - Rotated 5 degrees */}
+            <div 
+              className="absolute"
+              style={{
+                width: '800px',
+                height: '120%',
+                backgroundImage: 'url(/pattern.png)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'right center',
+                backgroundRepeat: 'no-repeat',
+                filter: 'brightness(0) invert(1)',
+                opacity: 1,
+                transform: 'rotate(5deg)',
+                transformOrigin: 'center',
+                top: '-10%',
+                left: '-300px'
+              }}
+            />
+            
+            {/* White crack pattern - RIGHT side - Rotated 25 degrees */}
+            <div 
+              className="absolute"
+              style={{
+                width: '800px',
+                height: '120%',
+                backgroundImage: 'url(/pattern.png)',
+                backgroundSize: 'auto 100%',
+                backgroundPosition: 'left center',
+                backgroundRepeat: 'no-repeat',
+                filter: 'brightness(0) invert(1)',
+                opacity: 1,
+                transform: 'rotate(-25deg)',
+                transformOrigin: 'center',
+                top: '-10%',
+                right: '-300px'
+              }}
+            />
 
-           {/* Content - Centered with offset */}
-           <div className="relative z-10 w-full flex flex-col items-center justify-center py-24 px-16">
-             {/* Title - PURPOSE & PRACTICE with offset */}
-             <div className="w-full max-w-5xl mb-12">
-               <h2 
-                 className="text-white"
-                 style={{
-                   fontFamily: 'Akkordeon, sans-serif',
-                   fontSize: 'clamp(6rem, 18vw, 15rem)',
-                   letterSpacing: '0.02em',
-                   fontWeight: 'normal',
-                   lineHeight: 0.85
-                 }}
-               >
-                 <div style={{ textAlign: 'center', marginLeft: '-5%' }}>PURPOSE &</div>
-                 <div style={{ textAlign: 'center', marginLeft: '25%' }}>PRACTICE.</div>
-               </h2>
-             </div>
+            {/* Content - Centered with offset */}
+            <div className="relative z-10 w-full flex flex-col items-center justify-center py-24 px-16">
+              {/* Title - PURPOSE & PRACTICE with offset */}
+              <div className="w-full max-w-5xl mb-12">
+                <h2 
+                  ref={purposeTitleRef}
+                  className="text-white"
+                  style={{
+                    fontFamily: 'Akkordeon, sans-serif',
+                    fontSize: 'clamp(6rem, 18vw, 15rem)',
+                    letterSpacing: '0.02em',
+                    fontWeight: 'normal',
+                    lineHeight: 0.85
+                  }}
+                >
+                  <div style={{ textAlign: 'center', marginLeft: '-5%' }}>PURPOSE &</div>
+                  <div style={{ textAlign: 'center', marginLeft: '25%' }}>PRACTICE.</div>
+                </h2>
+              </div>
 
-             {/* Description - Below title */}
-             <div className="max-w-2xl">
-               <p 
-                 className="text-white font-medium text-left leading-relaxed"
-                 style={{
-                   fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-                   lineHeight: '1.65'
-                 }}
-               >
-                 We Are Culture Exporters Shaping Music That Feels True To Home While Resonating Globally. Building Stronger East African Music Ecosystem Connecting Artists To Opportunities, Bending Boundaries. Unearthing Hidden Gems.
-               </p>
-             </div>
-           </div>
-         </section>
+              {/* Description - Below title */}
+              <div className="max-w-2xl">
+                <p 
+                  ref={purposeDescRef}
+                  className="text-white font-medium text-left leading-relaxed"
+                  style={{
+                    fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
+                    lineHeight: '1.65'
+                  }}
+                >
+                  We Are Culture Exporters Shaping Music That Feels True To Home While Resonating Globally. Building Stronger East African Music Ecosystem Connecting Artists To Opportunities, Bending Boundaries. Unearthing Hidden Gems.
+                </p>
+              </div>
+            </div>
+          </section>
 
-         {/* Who We Are Section - Dark Background */}
-         <section className="relative w-full flex items-center justify-center" style={{ backgroundColor: '#1F1F1F', overflow: 'hidden', zIndex: 20 }}>
-           {/* Orange crack pattern - Large, rotated, behind image */}
-           <div 
-             className="absolute"
-             style={{
-               width: '1457px',
-               height: '983px',
-               backgroundImage: 'url(/pattern.png)',
-               backgroundSize: 'cover',
-               backgroundPosition: 'center',
-               backgroundRepeat: 'no-repeat',
-               opacity: 1,
-               transform: 'rotate(-120deg)',
-               transformOrigin: 'center',
-               top: '20%',
-               left: '12%',
-               marginTop: '-491.5px',
-               marginLeft: '-728.5px',
-               zIndex: 1
-             }}
-           />
+          {/* Who We Are Section - Dark Background */}
+          <section 
+            className="relative w-full flex items-center justify-center" 
+            style={{ 
+              height: '100vh',
+              backgroundColor: '#1F1F1F', 
+              overflow: 'hidden', 
+              zIndex: 20 
+            }}
+          >
+            {/* Orange crack pattern - Large, rotated, behind image */}
+            <div 
+              className="absolute"
+              style={{
+                width: '1457px',
+                height: '983px',
+                backgroundImage: 'url(/pattern.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                opacity: 1,
+                transform: 'rotate(-120deg)',
+                transformOrigin: 'center',
+                top: '20%',
+                left: '12%',
+                marginTop: '-491.5px',
+                marginLeft: '-728.5px',
+                zIndex: 1
+              }}
+            />
 
-           {/* Content */}
-           <div className="relative z-10 w-full max-w-7xl mx-auto px-16 py-32 flex items-center gap-16">
-             {/* Left - Image */}
-             <div className="flex-shrink-0" style={{ width: '52%' }}>
-               <img 
-                 src="/who.png" 
-                 alt="Microphone" 
-                 className="w-full h-auto"
-                 style={{
-                   border: '4px solid #FF6B1A',
-                   borderRadius: '20px'
-                 }}
-               />
-             </div>
+            {/* Content */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-16 py-32 flex items-center gap-16">
+              {/* Left - Image */}
+              <div className="flex-shrink-0" style={{ width: '52%' }}>
+                <img 
+                  src="/who.png" 
+                  alt="Microphone" 
+                  className="w-full h-auto"
+                  style={{
+                    border: '4px solid #FF6B1A',
+                    borderRadius: '20px'
+                  }}
+                />
+              </div>
 
-             {/* Right - Content */}
-             <div className="flex-1">
-             {/* Title */}
-             <h2 
-                 className="text-white mb-10"
-               style={{
-                 fontFamily: 'Akkordeon, sans-serif',
-                   fontSize: 'clamp(5rem, 12vw, 9rem)',
-                   letterSpacing: '0.05em',
-                   fontWeight: 'normal',
-                   lineHeight: 1
-                 }}
-               >
-                 WHO WE ARE
-             </h2>
+              {/* Right - Content */}
+              <div className="flex-1">
+              {/* Title */}
+              <h2 
+                  ref={whoTitleRef}
+                  className="text-white mb-10"
+                style={{
+                  fontFamily: 'Akkordeon, sans-serif',
+                    fontSize: 'clamp(5rem, 12vw, 9rem)',
+                    letterSpacing: '0.05em',
+                    fontWeight: 'normal',
+                    lineHeight: 1
+                  }}
+                >
+                  WHO WE ARE
+              </h2>
 
-             {/* Description */}
-             <p 
-                 className="text-white font-normal leading-relaxed"
-               style={{
-                   fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
-                   lineHeight: '1.8'
-               }}
-             >
-                 SHASH is an independent East African Record label building a living bridge between local culture and global stages. developing artists, crafting high-quality music and visual work, and creating sustainable commercial pathways so creators can be heard and earn a living from their art.
-             </p>
-             </div>
-           </div>
-         </section>
+              {/* Description */}
+              <p 
+                  ref={whoDescRef}
+                  className="text-white font-normal leading-relaxed"
+                style={{
+                    fontSize: 'clamp(1.1rem, 2vw, 1.5rem)',
+                    lineHeight: '1.8'
+                }}
+              >
+                  SHASH is an independent East African Record label building a living bridge between local culture and global stages. developing artists, crafting high-quality music and visual work, and creating sustainable commercial pathways so creators can be heard and earn a living from their art.
+              </p>
+              </div>
+            </div>
+          </section>
 
-         {/* What Is New Section - Updates Background */}
-         <section className="relative w-full flex items-center justify-center" style={{ height: '1083px', overflow: 'hidden', zIndex: 20, display: 'flex', margin: 0 }}>
-           {/* Background Image - Zoomed */}
-           <div 
-             className="absolute inset-0"
-             style={{
-               backgroundImage: 'url(/updates.png)',
-               backgroundSize: 'cover',
-               backgroundPosition: 'center 120%',
-               backgroundRepeat: 'no-repeat',
-               filter: 'brightness(0.7)'
-             }}
-           />
-           
-           {/* Dark Overlay */}
-           <div className="absolute inset-0 bg-black/40" />
+          {/* What Is New Section - Updates Background */}
+          <section 
+            className="relative w-full flex items-center justify-center" 
+            style={{ 
+              height: '100vh',
+              overflow: 'hidden', 
+              zIndex: 20, 
+              margin: 0,
+              padding: 0
+            }}
+          >
+            {/* Background Image - Zoomed */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: 'url(/updates.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center 120%',
+                backgroundRepeat: 'no-repeat',
+                filter: 'brightness(0.7)'
+              }}
+            />
+            
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/40" />
 
-           {/* Content */}
-           <div className="relative z-10 w-full max-w-7xl mx-auto px-16 py-32 flex items-center justify-between gap-20">
-             {/* Left - "WHAT IS NEW" Title */}
-             <div className="flex-shrink-0">
-               <h2 
-                 className="leading-none"
-                 style={{
-                   fontFamily: 'Akkordeon, sans-serif',
-                   color: '#CC5500',
-                   letterSpacing: '0.02em',
-                   fontWeight: 'normal',
-                   lineHeight: 0.9
-                 }}
-               >
-                 <div style={{ fontSize: 'clamp(5rem, 14vw, 11rem)' }}>WHAT IS</div>
-                 <div style={{ fontSize: 'clamp(8rem, 19vw, 19rem)' }}>NEW</div>
-               </h2>
-             </div>
+            {/* Content */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-16 py-32 flex items-center justify-between gap-20">
+              {/* Left - "WHAT IS NEW" Title */}
+              <div className="flex-shrink-0">
+                <h2 
+                  ref={whatTitleRef}
+                  className="leading-none"
+                  style={{
+                    fontFamily: 'Akkordeon, sans-serif',
+                    color: '#CC5500',
+                    letterSpacing: '0.02em',
+                    fontWeight: 'normal',
+                    lineHeight: 0.9
+                  }}
+                >
+                  <div style={{ fontSize: 'clamp(5rem, 14vw, 11rem)' }}>WHAT IS</div>
+                  <div style={{ fontSize: 'clamp(8rem, 19vw, 19rem)' }}>NEW</div>
+                </h2>
+              </div>
 
-             {/* Right - Orange Content Box */}
-             <div 
-               className="flex-shrink-0 p-12"
-               style={{
-                 backgroundColor: '#CC5500',
-                 borderRadius: '20px',
-                 width: '693px',
-                 minHeight: '510px'
-               }}
-             >
-               {/* Title */}
-               <h3 
-                 className="text-white mb-6"
-                 style={{
-                   fontSize: 'clamp(2rem, 3.5vw, 2.5rem)',
-                   fontWeight: 'bold',
-                   lineHeight: 1.2
-                 }}
-               >
-                 Creative Season Is Here.
-               </h3>
+              {/* Right - Orange Content Box */}
+              <div 
+                ref={whatContentRef}
+                className="flex-shrink-0 p-12"
+                style={{
+                  backgroundColor: '#CC5500',
+                  borderRadius: '20px',
+                  width: '693px',
+                  minHeight: '510px'
+                }}
+              >
+                {/* Title */}
+                <h3 
+                  className="text-white mb-6"
+                  style={{
+                    fontSize: 'clamp(2rem, 3.5vw, 2.5rem)',
+                    fontWeight: 'bold',
+                    lineHeight: 1.2
+                  }}
+                >
+                  Creative Season Is Here.
+                </h3>
 
-               {/* Description */}
-               <div className="text-white space-y-4" style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', lineHeight: '1.7' }}>
-                 <p>
-                   This December, we're introducing the label through two powerful voices:
-                 </p>
-                 
-                 <p>
-                   <strong>Ane</strong> — A storyteller at heart. His Hip Hop/Trap concept album unfolds through a 30-episode cinematic social series — textured lyrics, intimate visuals, and stories that build toward each single.
-                 </p>
-                 
-                 <p>
-                   <strong>Arn</strong> — The sound of contemporary R&B and Pop. Stylish visuals, polished performance, and culture-shaping moments defining the next wave of East African Pop.
-                 </p>
-                 
-                 <p>
-                   We're crafting authentic brands, music, and stories — timing everything for maximum cultural impact.
-                 </p>
-                 
-                 <p className="font-semibold">
-                   Bold visuals. Quiet authenticity. Measurable momentum.<br />
-                   Watch this space for updates and first listens.
-                 </p>
-               </div>
-             </div>
-           </div>
-         </section>
+                {/* Description */}
+                <div className="text-white space-y-4" style={{ fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)', lineHeight: '1.7' }}>
+                  <p>
+                    This December, we're introducing the label through two powerful voices:
+                  </p>
+                  
+                  <p>
+                    <strong>Ane</strong> — A storyteller at heart. His Hip Hop/Trap concept album unfolds through a 30-episode cinematic social series — textured lyrics, intimate visuals, and stories that build toward each single.
+                  </p>
+                  
+                  <p>
+                    <strong>Arn</strong> — The sound of contemporary R&B and Pop. Stylish visuals, polished performance, and culture-shaping moments defining the next wave of East African Pop.
+                  </p>
+                  
+                  <p>
+                    We're crafting authentic brands, music, and stories — timing everything for maximum cultural impact.
+                  </p>
+                  
+                  <p className="font-semibold">
+                    Bold visuals. Quiet authenticity. Measurable momentum.<br />
+                    Watch this space for updates and first listens.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
 
-         {/* Get On Board Section - Stone Background */}
-         <section 
-           className="relative w-full flex items-center justify-center" 
-           style={{ 
-             height: '80vh',
-             backgroundImage: 'url(/shash_background.png)',
-             backgroundSize: 'cover',
-             backgroundPosition: 'center center',
-             backgroundRepeat: 'no-repeat',
-             overflow: 'hidden',
-             zIndex: 20,
-             display: 'flex',
-             margin: 0,
-             padding: 0,
-             lineHeight: 1
-           }}
-         >
-           {/* Dark Gradient Overlay */}
-           <div 
-             className="absolute inset-0"
-             style={{
-               background: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.25) 100%)',
-               zIndex: 1
-             }}
-           />
-           
-           {/* Content */}
-           <div className="relative z-10">
-             <h2 
-               className="text-center leading-none"
-               style={{
-                 fontFamily: 'Akkordeon, sans-serif',
-                 fontSize: 'clamp(6rem, 18vw, 14rem)',
-                 color: '#CC5500',
-                 letterSpacing: '0.03em',
-                 fontWeight: 'normal',
-                 lineHeight: 0.9
-               }}
-             >
-               GET ON<br />BOARD
-             </h2>
-           </div>
-         </section>
+          {/* Get On Board Section - Stone Background */}
+          <section 
+            className="relative w-full flex items-center justify-center" 
+            style={{ 
+              height: '80vh',
+              backgroundImage: 'url(/shash_background.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center center',
+              backgroundRepeat: 'no-repeat',
+              overflow: 'hidden',
+              zIndex: 20,
+              display: 'flex',
+              margin: 0,
+              padding: 0,
+              lineHeight: 1
+            }}
+          >
+            {/* Dark Gradient Overlay */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.25) 100%)',
+                zIndex: 1
+              }}
+            />
+            
+            {/* Content */}
+            <div className="relative z-10">
+              <h2 
+                ref={getBoardTitleRef}
+                className="text-center leading-none"
+                style={{
+                  fontFamily: 'Akkordeon, sans-serif',
+                  fontSize: 'clamp(6rem, 18vw, 14rem)',
+                  color: '#CC5500',
+                  letterSpacing: '0.03em',
+                  fontWeight: 'normal',
+                  lineHeight: 0.9
+                }}
+              >
+                GET ON<br />BOARD
+              </h2>
+            </div>
+          </section>
 
          {/* Footer Section */}
          <footer className="relative w-full" style={{ backgroundColor: '#1F1F1F', overflow: 'hidden' }}>
