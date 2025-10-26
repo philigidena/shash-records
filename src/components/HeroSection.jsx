@@ -7,8 +7,21 @@ const HeroSection = ({ refs }) => {
   
   useMagneticButton(buttonRef)
 
+  const handleExploreClick = () => {
+    const stackedCardsSection = document.getElementById('explore-shash')
+    if (stackedCardsSection) {
+      stackedCardsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Ensure ScrollTrigger updates after smooth scroll completes
+      setTimeout(() => {
+        if (window.ScrollTrigger) {
+          window.ScrollTrigger.refresh()
+        }
+      }, 1000)
+    }
+  }
+
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-4 pb-16">
+    <div id="home" className="flex-1 flex flex-col items-center justify-center px-4 pb-16 pt-8">
       {/* Logo */}
       <div ref={logoRef} className="mb-10">
         <img 
@@ -43,6 +56,7 @@ const HeroSection = ({ refs }) => {
       {/* CTA Button */}
       <button 
         ref={buttonRef}
+        onClick={handleExploreClick}
         className="bg-shash-orange hover:bg-orange-600 text-white font-semibold px-14 py-4 rounded-full text-lg md:text-xl tracking-wide transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-shash-orange/50 opacity-100"
       >
         Explore Shash

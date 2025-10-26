@@ -4,6 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Make ScrollTrigger globally accessible for navigation
+if (typeof window !== 'undefined') {
+  window.ScrollTrigger = ScrollTrigger
+}
+
 // Card data for each letter
 const cardData = [
   {
@@ -335,6 +340,7 @@ const StackedCards = ({ refs }) => {
 
   return (
     <section 
+      id="explore-shash"
       ref={sectionRef}
       className="relative w-full"
       style={{

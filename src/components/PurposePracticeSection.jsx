@@ -3,6 +3,7 @@ const PurposePracticeSection = ({ refs }) => {
 
   return (
     <section 
+      id="about-us"
       className="relative w-full bg-shash-orange flex flex-col items-center justify-center" 
       style={{ 
         height: '100vh',

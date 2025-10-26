@@ -3,6 +3,7 @@ const WhatIsNewSection = ({ refs }) => {
 
   return (
     <section 
+      id="updates"
       className="relative w-full flex items-center justify-center" 
       style={{ 
         height: '100vh',

@@ -3,6 +3,7 @@ const GetOnBoardSection = ({ refs }) => {
 
   return (
     <section 
+      id="contact-us"
       className="relative w-full flex items-center justify-center" 
       style={{ 
         height: '80vh',

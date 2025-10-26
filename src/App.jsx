@@ -85,11 +85,11 @@ function App() {
       {/* Throbbing Glow Animation Following Crack Patterns */}
       <GlowEffects refs={{ glow1Ref, glow2Ref, glow3Ref, glow4Ref }} />
 
+      {/* Navigation */}
+      <Navigation ref={navRef} />
+
       {/* Content */}
       <div className="relative min-h-screen flex flex-col" style={{ zIndex: 1 }}>
-            {/* Navigation */}
-        <Navigation ref={navRef} />
-
         {/* Hero Content */}
         <HeroSection refs={{ logoRef, subtitleRef, descriptionRef, buttonRef }} />
 
