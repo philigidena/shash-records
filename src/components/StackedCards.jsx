@@ -11,11 +11,11 @@ const cardData = [
     type: 'intro',
     title: 'SHASH',
     values: [
-  { icon: '🎯', text: 'Singularity' },
-  { icon: '🤝', text: 'Humility' },
-  { icon: '🔄', text: 'Adaptivity' },
-      { icon: '🔗', text: 'Synergy' },
-  { icon: '⚡', text: 'Hustle' },
+      { icon: '/Singularity.png', text: 'Singularity' },
+      { icon: '/Humility.png', text: 'Humility' },
+      { icon: '/Adaptivity.png', text: 'Adaptivity' },
+      { icon: '/Synergy.png', text: 'Synergy' },
+      { icon: '/Hustle.png', text: 'Hustle' },
     ]
   },
   {
@@ -58,39 +58,65 @@ const cardData = [
 const CardContent = ({ card, shashTitleRef, valuesRowRef }) => {
   if (card.type === 'intro') {
   return (
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-10 py-16">
-        {/* SHASH Title */}
-        <div ref={shashTitleRef} className="mb-20 md:mb-24 flex justify-center gap-12 md:gap-16 lg:gap-20">
+      <div className="relative z-10 h-full flex flex-col items-center px-10 py-16">
+        {/* SHASH Letters - Positioned slightly above center */}
+        <div 
+          ref={shashTitleRef}
+          className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center"
+          style={{ 
+            top: '35%',
+            gap: 'clamp(2rem, 8vw, 6rem)'
+          }}
+        >
           {card.title.split('').map((letter, index) => (
-            <span 
-              key={index}
-              className="text-white font-black"
-          style={{
-                fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-                textShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
+            <div 
+              key={index} 
+              className="flex justify-center items-center"
+              style={{ 
+                minWidth: 'clamp(3.5rem, 10vw, 8rem)',
+                width: 'clamp(3.5rem, 10vw, 8rem)'
               }}
             >
-              {letter}
-            </span>
+              <span 
+                className="text-white font-black"
+                style={{
+                  fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+                  textShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
+                }}
+              >
+                {letter}
+              </span>
+            </div>
           ))}
         </div>
 
-        {/* Values Row */}
-        <div ref={valuesRowRef} className="flex flex-wrap items-center justify-center gap-12 md:gap-16 lg:gap-20">
+        {/* Icon-Text Pairs - Positioned closer to bottom */}
+        <div 
+          ref={valuesRowRef}
+          className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center"
+          style={{ 
+            bottom: '15%',
+            gap: 'clamp(2rem, 8vw, 6rem)'
+          }}
+        >
           {card.values.map((item, index) => (
             <div 
               key={index}
-              className="flex items-center gap-2.5 group cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="flex flex-col items-center gap-2.5 group cursor-pointer hover:scale-105 transition-transform duration-300"
+              style={{ 
+                minWidth: 'clamp(3.5rem, 10vw, 8rem)',
+                width: 'clamp(3.5rem, 10vw, 8rem)'
+              }}
             >
-              <span 
-                className="text-2xl md:text-3xl transition-all duration-300"
-            style={{ 
+              <img 
+                src={item.icon}
+                alt={item.text}
+                className="w-6 h-6 md:w-8 md:h-8 transition-all duration-300 object-contain"
+                style={{
                   filter: 'brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255, 255, 255, 0.5))'
                 }}
-              >
-                {item.icon}
-              </span>
-              <span className="text-white group-hover:text-shash-orange text-xs md:text-sm font-medium tracking-wide transition-colors duration-300">
+              />
+              <span className="text-white group-hover:text-shash-orange text-xs md:text-sm font-medium tracking-wide transition-colors duration-300 whitespace-nowrap">
                 {item.text}
               </span>
             </div>

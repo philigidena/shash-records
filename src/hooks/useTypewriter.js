@@ -36,3 +36,4 @@ export const useTypewriter = (text, typingSpeed = 80, startDelay = 500) => {
   return { typedText, showCursor, typingComplete }
 }
 
+
