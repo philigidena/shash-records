@@ -229,55 +229,73 @@ const StackedCards = ({ refs }) => {
     })
 
     const ctx = gsap.context(() => {
-      // Set initial state for all cards
+      // Set initial state for all cards with stacked effect
       cards.forEach((card, i) => {
         gsap.set(card, {
           y: 0,
           z: 0,
           rotationX: 0,
+          rotationY: 0,
           opacity: 1,
-          scale: 1,
+          scale: 1 - (i * 0.01), // Subtle scale for depth
           zIndex: cards.length - i,
           force3D: true,
-          transformOrigin: 'center bottom',
+          transformOrigin: 'center center',
           transformStyle: 'preserve-3d'
         })
       })
 
-      // Create individual scroll trigger for each card - with 3D flip effect
+      const scrollDistance = window.innerHeight * 0.7 // Distance per card
+      const initialDelay = window.innerHeight * 0.3 // Extra time to view intro card
+
+      // Create individual scroll trigger for each card with realistic flip
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return // Last card stays visible
 
-        // Each card gets its own 3D flip animation
+        const cardStart = initialDelay + (i * scrollDistance)
+        const cardEnd = cardStart + scrollDistance
+
+        // Enhanced 3D flip animation
         gsap.to(card, {
-          y: -250,
-          z: -150, // Move backwards in 3D space
-          rotationX: -15, // Tilt backwards as it goes up
+          y: -300,
+          z: -200, // Move further back
+          rotationX: -25, // More dramatic tilt
+          rotationY: -5, // Slight side rotation for realism
           opacity: 0,
-          scale: 0.7,
-          ease: 'power1.inOut',
+          scale: 0.6,
+          ease: 'power2.inOut',
           scrollTrigger: {
             trigger: section,
-            start: () => `top+=${i * window.innerHeight * 0.5} top`, // Quick reveal
-            end: () => `top+=${(i + 1) * window.innerHeight * 0.5} top`,
-            scrub: 0.5, // More immediate response
+            start: () => `top+=${cardStart} top`,
+            end: () => `top+=${cardEnd} top`,
+            scrub: 0.8, // Smoother scrub
             onEnter: () => {
-              // Move this card to the back when its animation starts
-              gsap.set(card, { zIndex: -10 - i })
+              // Smoothly move card to back as it starts flipping
+              gsap.to(card, { 
+                zIndex: -10 - i,
+                duration: 0.3,
+                ease: 'none'
+              })
             },
             onLeaveBack: () => {
               // Restore z-index when scrolling back
-              gsap.set(card, { zIndex: cards.length - i })
+              gsap.to(card, { 
+                zIndex: cards.length - i,
+                duration: 0.3,
+                ease: 'none'
+              })
             }
           }
         })
       })
 
-      // Pin the section - shorter duration for quicker transitions
+      // Pin the section with longer duration to show intro card
+      const totalScroll = initialDelay + (cards.length * scrollDistance)
+      
       ScrollTrigger.create({
         trigger: section,
         start: 'top top',
-        end: () => `+=${cards.length * window.innerHeight * 0.5}`,
+        end: () => `+=${totalScroll}`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1
@@ -309,8 +327,8 @@ const StackedCards = ({ refs }) => {
         className="relative w-full max-w-6xl mx-auto px-4"
         style={{
           height: 'min(600px, 70vh)',
-          perspective: '2000px',
-          perspectiveOrigin: 'center center',
+          perspective: '2500px',
+          perspectiveOrigin: 'center 40%',
           transformStyle: 'preserve-3d'
         }}
       >
