@@ -42,34 +42,34 @@ const PurposePracticeSection = ({ refs }) => {
       }
     })
 
-    // Text animations
+    // Text animations - faster
     gsap.fromTo(title,
-      { opacity: 0, y: 80, scale: 0.95 },
+      { opacity: 0, y: 60, scale: 0.95 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 70%',
+          start: 'top 75%',
           toggleActions: 'play none none reverse'
         }
       }
     )
 
     gsap.fromTo(desc,
-      { opacity: 0, y: 60 },
+      { opacity: 0, y: 40 },
       {
         opacity: 1,
         y: 0,
-        duration: 1,
+        duration: 0.7,
         ease: 'power2.out',
-        delay: 0.3,
+        delay: 0.2,
         scrollTrigger: {
           trigger: section,
-          start: 'top 65%',
+          start: 'top 72%',
           toggleActions: 'play none none reverse'
         }
       }

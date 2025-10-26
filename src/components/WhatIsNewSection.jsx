@@ -44,18 +44,18 @@ const WhatIsNewSection = ({ refs }) => {
       }
     )
 
-    // Content box animation
+    // Content box animation - faster timing
     gsap.fromTo(content,
       { opacity: 0, x: 80, scale: 0.95 },
       {
         opacity: 1,
         x: 0,
         scale: 1,
-        duration: 1.2,
-        ease: 'power3.out',
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 70%',
+          start: 'top 75%',
           toggleActions: 'play none none reverse'
         }
       }
