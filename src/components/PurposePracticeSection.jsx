@@ -7,70 +7,42 @@ gsap.registerPlugin(ScrollTrigger)
 const PurposePracticeSection = ({ refs }) => {
   const { purposeTitleRef, purposeDescRef } = refs
   const sectionRef = useRef(null)
-  const leftPatternRef = useRef(null)
-  const rightPatternRef = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
-    const leftPattern = leftPatternRef.current
-    const rightPattern = rightPatternRef.current
     const title = purposeTitleRef.current
     const desc = purposeDescRef.current
 
-    if (!section || !leftPattern || !rightPattern || !title || !desc) return
+    if (!section || !title || !desc) return
 
-    // Parallax effect for patterns
-    gsap.to(leftPattern, {
-      y: -100,
-      rotation: 10,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5
-      }
-    })
-
-    gsap.to(rightPattern, {
-      y: 100,
-      rotation: -30,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1.5
-      }
-    })
-
-    // Text animations - faster
+    // Text animations - fast and clean, no reverse
     gsap.fromTo(title,
-      { opacity: 0, y: 60, scale: 0.95 },
+      { opacity: 0, y: 50 },
       {
         opacity: 1,
         y: 0,
-        scale: 1,
-        duration: 0.8,
+        duration: 0.6,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          start: 'top 80%',
+          toggleActions: 'play none none none'
         }
       }
     )
 
     gsap.fromTo(desc,
-      { opacity: 0, y: 40 },
+      { opacity: 0, y: 30 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power2.out',
-        delay: 0.2,
+        delay: 0.15,
         scrollTrigger: {
           trigger: section,
-          start: 'top 72%',
-          toggleActions: 'play none none reverse'
+          start: 'top 80%',
+          toggleActions: 'play none none none'
         }
       }
     )
@@ -95,8 +67,7 @@ const PurposePracticeSection = ({ refs }) => {
     >
       {/* White crack pattern - LEFT side - Rotated 5 degrees */}
       <div 
-        ref={leftPatternRef}
-        className="absolute transition-opacity duration-700 hover:opacity-90"
+        className="absolute"
         style={{
           width: '800px',
           height: '120%',
@@ -115,8 +86,7 @@ const PurposePracticeSection = ({ refs }) => {
       
       {/* White crack pattern - RIGHT side - Rotated 25 degrees */}
       <div 
-        ref={rightPatternRef}
-        className="absolute transition-opacity duration-700 hover:opacity-90"
+        className="absolute"
         style={{
           width: '800px',
           height: '120%',

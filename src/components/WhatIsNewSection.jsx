@@ -7,56 +7,43 @@ gsap.registerPlugin(ScrollTrigger)
 const WhatIsNewSection = ({ refs }) => {
   const { whatTitleRef, whatContentRef } = refs
   const sectionRef = useRef(null)
-  const bgRef = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
-    const bg = bgRef.current
     const title = whatTitleRef.current
     const content = whatContentRef.current
 
-    if (!section || !bg || !title || !content) return
+    if (!section || !title || !content) return
 
-    // Parallax background
-    gsap.to(bg, {
-      y: -50,
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1
-      }
-    })
-
-    // Title animation
+    // Title animation - faster
     gsap.fromTo(title,
-      { opacity: 0, x: -80 },
+      { opacity: 0, y: 40 },
       {
         opacity: 1,
-        x: 0,
-        duration: 1.2,
-        ease: 'power3.out',
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
+          start: 'top 80%',
+          toggleActions: 'play none none none'
         }
       }
     )
 
-    // Content box animation - faster timing
+    // Content box animation - clean and fast
     gsap.fromTo(content,
-      { opacity: 0, x: 80, scale: 0.95 },
+      { opacity: 0, y: 40 },
       {
         opacity: 1,
-        x: 0,
-        scale: 1,
-        duration: 0.8,
+        y: 0,
+        duration: 0.6,
         ease: 'power2.out',
+        delay: 0.1,
         scrollTrigger: {
           trigger: section,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          start: 'top 80%',
+          toggleActions: 'play none none none'
         }
       }
     )
@@ -87,7 +74,6 @@ const WhatIsNewSection = ({ refs }) => {
     >
       {/* Background Image - Zoomed */}
       <div 
-        ref={bgRef}
         className="absolute"
         style={{
           top: 0,
@@ -98,8 +84,7 @@ const WhatIsNewSection = ({ refs }) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center 90%',
           backgroundRepeat: 'no-repeat',
-          filter: 'brightness(0.7)',
-          willChange: 'transform'
+          filter: 'brightness(0.7)'
         }}
       />
       
