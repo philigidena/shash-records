@@ -173,11 +173,11 @@ section {
 
 /* Vinyl Disk Rotation Animation - GPU Optimized */
 @keyframes vinyl-rotate {
-  from {
-    transform: rotate3d(0, 0, 1, 0deg);
+  0% {
+    transform: rotate(0deg);
   }
-  to {
-    transform: rotate3d(0, 0, 1, 360deg);
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -186,8 +186,6 @@ section {
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
 }
 
 .vinyl-disk-rotate:hover {

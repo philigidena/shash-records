@@ -28,35 +28,40 @@ const cardData = [
     type: 'letter',
     letter: 'S',
     title: 'Singularity',
-    description: 'We focus on what makes each artist unique. Your distinct voice, your story, your sound—that\'s what we amplify. No cookie-cutter approaches, just authentic artistic identity.'
+    icon: '/Singularity.png',
+    description: 'We strive to be singular in what we do, by embracing authenticity and creativity.'
   },
   {
     id: 'h1',
     type: 'letter',
     letter: 'H',
     title: 'Humility',
-    description: 'We stay grounded and open to learning. Success comes from respecting the craft, the culture, and the community. We listen, adapt, and grow together with our artists.'
+    icon: '/Humility.png',
+    description: 'We stay humble about our competitive advantages, believing in shared growth & continued learning.'
   },
   {
     id: 'a',
     type: 'letter',
     letter: 'A',
     title: 'Adaptivity',
-    description: 'The music landscape evolves rapidly, and so do we. We stay flexible, innovative, and responsive to change—always finding new ways to connect artists with their audience.'
+    icon: '/Adaptivity.png',
+    description: 'We adapt to changing atmospheres without loosing our touch of innovativeness and originality.'
   },
   {
     id: 's2',
     type: 'letter',
     letter: 'S',
     title: 'Synergy',
-    description: 'Together we achieve more. We build collaborative ecosystems where artists, producers, and creative minds work in harmony to create something greater than the sum of its parts.'
+    icon: '/Synergy.png',
+    description: 'Our collaboration is evidence by itself that synergy is the leading cause of breakthroughs.'
   },
   {
     id: 'h2',
     type: 'letter',
     letter: 'H',
     title: 'Hustle',
-    description: 'We put in the work. Consistent, dedicated, relentless effort towards excellence. No shortcuts, just commitment to making great music and building sustainable careers.'
+    icon: '/Hustle.png',
+    description: 'Hard-work, commitment and perseverance are our driving ideals to reach where we\'re headed.'
   }
 ]
 
@@ -134,14 +139,37 @@ const CardContent = ({ card, shashTitleRef, valuesRowRef }) => {
   // Letter card content
   return (
     <div className="relative z-10 h-full flex flex-col items-center justify-center px-12 py-16">
-      {/* Large Letter */}
-      <div className="mb-8">
-        <span 
-          className="text-shash-orange font-black"
+      {/* Glowing Icon - Top */}
+      <div className="mb-8 relative">
+        <div 
+          className="absolute inset-0"
           style={{
-            fontSize: 'clamp(8rem, 20vw, 16rem)',
-            textShadow: '0 10px 40px rgba(255, 107, 26, 0.5)',
-            lineHeight: 1
+            filter: 'blur(25px)',
+            opacity: 0.6,
+            background: 'radial-gradient(circle, rgba(255, 107, 26, 0.6) 0%, transparent 70%)',
+            transform: 'scale(1.5)'
+          }}
+        />
+        <img 
+          src={card.icon}
+          alt={card.title}
+          className="relative z-10 object-contain"
+          style={{
+            width: 'clamp(2.5rem, 5vw, 3.5rem)',
+            height: 'clamp(2.5rem, 5vw, 3.5rem)',
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 15px rgba(255, 107, 26, 0.8)) drop-shadow(0 0 30px rgba(255, 107, 26, 0.4))',
+          }}
+        />
+      </div>
+
+      {/* Large Letter - Positioned Behind Title */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ opacity: 0.08, zIndex: 0 }}>
+        <span 
+          className="text-white font-black"
+          style={{
+            fontSize: 'clamp(15rem, 35vw, 28rem)',
+            lineHeight: 1,
+            userSelect: 'none'
           }}
         >
           {card.letter}
@@ -150,27 +178,41 @@ const CardContent = ({ card, shashTitleRef, valuesRowRef }) => {
 
       {/* Title */}
       <h3 
-        className="text-white font-black mb-6 text-center"
-            style={{ 
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+        className="text-white font-black mb-8 text-center relative z-10"
+        style={{ 
+          fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
           textShadow: '0 5px 20px rgba(0, 0, 0, 0.5)',
-          letterSpacing: '0.05em'
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase'
         }}
       >
         {card.title}
       </h3>
 
+      {/* Decorative Line */}
+      <div 
+        className="mb-8 relative z-10"
+        style={{
+          width: 'clamp(60px, 15vw, 120px)',
+          height: '3px',
+          background: 'linear-gradient(90deg, transparent 0%, #FF6B1A 50%, transparent 100%)',
+          boxShadow: '0 0 10px rgba(255, 107, 26, 0.5)'
+        }}
+      />
+
       {/* Description */}
       <p 
-        className="text-white/90 text-center max-w-2xl leading-relaxed"
-            style={{
-          fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-          lineHeight: '1.8'
+        className="text-white/95 text-center max-w-2xl leading-relaxed relative z-10 font-medium"
+        style={{
+          fontSize: 'clamp(1.05rem, 2.2vw, 1.35rem)',
+          lineHeight: '1.9',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+          letterSpacing: '0.02em'
         }}
       >
         {card.description}
       </p>
-        </div>
+    </div>
   )
 }
 
@@ -223,16 +265,44 @@ const Card = ({ card, index, shashTitleRef, valuesRowRef, cardRef }) => {
             }}
           />
           
-      {/* Glow effect */}
+      {/* Enhanced corner glow - Layer 1 (Intense) */}
           <div 
             style={{
               position: 'absolute',
-              bottom: '-25%',
-              right: '-25%',
-              width: '90%',
-              height: '90%',
-              background: 'radial-gradient(circle, rgba(255, 107, 26, 0.25) 0%, rgba(255, 107, 26, 0.12) 20%, rgba(255, 107, 26, 0.06) 40%, rgba(255, 107, 26, 0.03) 60%, transparent 80%)',
-              filter: 'blur(50px)',
+              bottom: '-10%',
+              right: '-10%',
+              width: '50%',
+              height: '50%',
+              background: 'radial-gradient(circle at center, rgba(255, 107, 26, 0.45) 0%, rgba(255, 107, 26, 0.25) 25%, rgba(255, 107, 26, 0.12) 45%, transparent 70%)',
+              filter: 'blur(40px)',
+              pointerEvents: 'none'
+            }}
+          />
+
+      {/* Enhanced corner glow - Layer 2 (Spread) */}
+          <div 
+            style={{
+              position: 'absolute',
+              bottom: '-20%',
+              right: '-20%',
+              width: '80%',
+              height: '80%',
+              background: 'radial-gradient(circle at center, rgba(255, 107, 26, 0.3) 0%, rgba(255, 107, 26, 0.15) 20%, rgba(255, 107, 26, 0.08) 40%, rgba(255, 107, 26, 0.04) 60%, transparent 80%)',
+              filter: 'blur(60px)',
+              pointerEvents: 'none'
+            }}
+          />
+
+      {/* Enhanced corner glow - Layer 3 (Subtle outer) */}
+          <div 
+            style={{
+              position: 'absolute',
+              bottom: '-30%',
+              right: '-30%',
+              width: '100%',
+              height: '100%',
+              background: 'radial-gradient(circle at center, rgba(255, 107, 26, 0.2) 0%, rgba(255, 107, 26, 0.1) 15%, rgba(255, 107, 26, 0.05) 30%, transparent 60%)',
+              filter: 'blur(80px)',
               pointerEvents: 'none'
             }}
           />
