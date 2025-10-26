@@ -1,8 +1,76 @@
+import { useRef, useEffect } from 'react'
+import { gsap} from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const WhatIsNewSection = ({ refs }) => {
   const { whatTitleRef, whatContentRef } = refs
+  const sectionRef = useRef(null)
+  const bgRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const bg = bgRef.current
+    const title = whatTitleRef.current
+    const content = whatContentRef.current
+
+    if (!section || !bg || !title || !content) return
+
+    // Parallax background
+    gsap.to(bg, {
+      y: -50,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1
+      }
+    })
+
+    // Title animation
+    gsap.fromTo(title,
+      { opacity: 0, x: -80 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    // Content box animation
+    gsap.fromTo(content,
+      { opacity: 0, x: 80, scale: 0.95 },
+      {
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => {
+        if (t.trigger === section) t.kill()
+      })
+    }
+  }, [whatTitleRef, whatContentRef])
 
   return (
     <section 
+      ref={sectionRef}
       id="updates"
       className="relative w-full flex items-center justify-center" 
       style={{ 
@@ -10,19 +78,28 @@ const WhatIsNewSection = ({ refs }) => {
         overflow: 'hidden', 
         zIndex: 20, 
         margin: 0,
+        marginBottom: '-2px',
         padding: 0,
-        display: 'flex'
+        display: 'block',
+        fontSize: 0,
+        lineHeight: 0
       }}
     >
       {/* Background Image - Zoomed */}
       <div 
-        className="absolute inset-0"
+        ref={bgRef}
+        className="absolute"
         style={{
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: '-10%',
           backgroundImage: 'url(/updates.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center 80%',
+          backgroundPosition: 'center 90%',
           backgroundRepeat: 'no-repeat',
-          filter: 'brightness(0.7)'
+          filter: 'brightness(0.7)',
+          willChange: 'transform'
         }}
       />
       
@@ -30,7 +107,7 @@ const WhatIsNewSection = ({ refs }) => {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-16 flex items-center justify-between gap-20">
+      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-16 flex items-center justify-between gap-20">
         {/* Left - "WHAT IS NEW" Title */}
         <div className="flex-shrink-0">
           <h2 
@@ -52,7 +129,7 @@ const WhatIsNewSection = ({ refs }) => {
         {/* Right - Orange Content Box */}
         <div 
           ref={whatContentRef}
-          className="flex-shrink-0 p-12"
+          className="flex-shrink-0 p-12 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-shash-orange/40"
           style={{
             backgroundColor: '#CC5500',
             borderRadius: '20px',

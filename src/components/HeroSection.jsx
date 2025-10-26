@@ -21,7 +21,7 @@ const HeroSection = ({ refs }) => {
   }
 
   return (
-    <div id="home" className="flex-1 flex flex-col items-center justify-center px-4 pb-16 pt-8">
+    <div id="home" className="flex-1 flex flex-col items-center justify-center px-4 pb-16 pt-32">
       {/* Logo */}
       <div ref={logoRef} className="mb-10">
         <img 

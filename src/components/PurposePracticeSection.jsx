@@ -1,8 +1,90 @@
+import { useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const PurposePracticeSection = ({ refs }) => {
   const { purposeTitleRef, purposeDescRef } = refs
+  const sectionRef = useRef(null)
+  const leftPatternRef = useRef(null)
+  const rightPatternRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const leftPattern = leftPatternRef.current
+    const rightPattern = rightPatternRef.current
+    const title = purposeTitleRef.current
+    const desc = purposeDescRef.current
+
+    if (!section || !leftPattern || !rightPattern || !title || !desc) return
+
+    // Parallax effect for patterns
+    gsap.to(leftPattern, {
+      y: -100,
+      rotation: 10,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    })
+
+    gsap.to(rightPattern, {
+      y: 100,
+      rotation: -30,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    })
+
+    // Text animations
+    gsap.fromTo(title,
+      { opacity: 0, y: 80, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    gsap.fromTo(desc,
+      { opacity: 0, y: 60 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.3,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 65%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => {
+        if (t.trigger === section) t.kill()
+      })
+    }
+  }, [purposeTitleRef, purposeDescRef])
 
   return (
     <section 
+      ref={sectionRef}
       id="about-us"
       className="relative w-full bg-shash-orange flex flex-col items-center justify-center" 
       style={{ 
@@ -13,7 +95,8 @@ const PurposePracticeSection = ({ refs }) => {
     >
       {/* White crack pattern - LEFT side - Rotated 5 degrees */}
       <div 
-        className="absolute"
+        ref={leftPatternRef}
+        className="absolute transition-opacity duration-700 hover:opacity-90"
         style={{
           width: '800px',
           height: '120%',
@@ -32,7 +115,8 @@ const PurposePracticeSection = ({ refs }) => {
       
       {/* White crack pattern - RIGHT side - Rotated 25 degrees */}
       <div 
-        className="absolute"
+        ref={rightPatternRef}
+        className="absolute transition-opacity duration-700 hover:opacity-90"
         style={{
           width: '800px',
           height: '120%',

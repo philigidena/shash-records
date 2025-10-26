@@ -1,36 +1,62 @@
+import { useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 const GetOnBoardSection = ({ refs }) => {
   const { getBoardTitleRef } = refs
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const title = getBoardTitleRef.current
+
+    if (!section || !title) return
+
+    // Title animation - scale and fade
+    gsap.fromTo(title,
+      { opacity: 0, scale: 0.8, y: 60 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 1.5,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    )
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => {
+        if (t.trigger === section) t.kill()
+      })
+    }
+  }, [getBoardTitleRef])
 
   return (
     <section 
+      ref={sectionRef}
       id="contact-us"
       className="relative w-full flex items-center justify-center" 
       style={{ 
-        height: '80vh',
-        backgroundImage: 'url(/shash_background.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat',
+        height: '70vh',
         overflow: 'hidden',
-        zIndex: 20,
-        display: 'flex',
+        zIndex: 21,
+        display: 'block',
         margin: 0,
-        marginTop: '-1px',
+        marginTop: 0,
         padding: 0,
-        lineHeight: 1
+        fontSize: 0,
+        lineHeight: 0
       }}
     >
-      {/* Dark Gradient Overlay */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.25) 100%)',
-          zIndex: 1
-        }}
-      />
-      
-      {/* Content */}
-      <div className="relative z-10">
+      {/* Content - No background, transparent */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
         <h2 
           ref={getBoardTitleRef}
           className="text-center leading-none"

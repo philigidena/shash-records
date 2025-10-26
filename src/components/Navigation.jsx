@@ -17,7 +17,7 @@ const Navigation = forwardRef((props, ref) => {
   useEffect(() => {
     const handleScroll = () => {
       const stackedCardsSection = document.getElementById('explore-shash')
-      const heroSection = document.getElementById('home')
+      const scrollY = window.scrollY || window.pageYOffset
       
       if (stackedCardsSection) {
         const rect = stackedCardsSection.getBoundingClientRect()
@@ -25,19 +25,16 @@ const Navigation = forwardRef((props, ref) => {
         setShowLogo(rect.top <= 100)
       }
 
-      if (heroSection) {
-        const heroRect = heroSection.getBoundingClientRect()
-        // Check if we're still in the hero section (with some buffer)
-        const inHero = heroRect.bottom > window.innerHeight * 0.3
-        setIsInHeroSection(inHero)
-        
-        // If leaving hero section and not hovered, retract menu
-        if (!inHero && !isHovered) {
-          setIsExpanded(false)
-        } else if (inHero) {
-          // Always expanded in hero section
-          setIsExpanded(true)
-        }
+      // Check if user has scrolled at all
+      const hasScrolled = scrollY > 0
+      setIsInHeroSection(!hasScrolled)
+      
+      // If scrolled and not hovered, retract menu
+      if (hasScrolled && !isHovered) {
+        setIsExpanded(false)
+      } else if (!hasScrolled) {
+        // At top of page - expanded
+        setIsExpanded(true)
       }
     }
 
